@@ -1,0 +1,86 @@
+input
+{
+  width: 100%;
+  padding: 12px 20px;
+  margin-top:8px;
+  display: flex;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+#bg {
+  position: fixed; 
+  top: 0; 
+  left: 0; 
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  min-width: 100%;
+  min-height: 100%;
+}
+#bg_1 {
+  position: fixed; 
+  top: 0; 
+  left: 0; 
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  min-width: 100%;
+  min-height: 100%;
+}
+#bg_2{
+  position: fixed; 
+  top: 0; 
+  left: 0; 
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  min-width: 100%;
+  min-height: 100%;
+}
+
+input {
+  background-color : #9cf;
+  color : #000;
+  font-style: italic;
+}
+
+#rangeDate  {
+  border: 2px solid whitesmoke;
+  border-radius: 20px;
+  padding: 12px 10px;
+  text-align: center;
+  width: 250px;
+}
+
+#signin_button{
+  background-color : rgb(52, 148, 8);
+  color : #000;
+  font-family: Georgia, 'Times New Roman', Times, serif;
+}
+#signupbutton{
+  background-color : rgb(52, 148, 8);
+  color : #000;
+  font-family: Georgia, 'Times New Roman', Times, serif;
+}
+#login-form{
+  padding-top: 80px;
+}
+
+
+.scroll{
+  overflow-x: hidden; 
+  overflow-y: auto; 
+  text-align:justify; 
+}
+
+.blink {
+  animation: blinker 0.6s linear infinite;
+  font-size: 20px;
+  font-family: sans-serif;
+  text-align: center;
+}
+
+@keyframes blinker {
+  100% {
+    opacity: 0;
+  }
+}
