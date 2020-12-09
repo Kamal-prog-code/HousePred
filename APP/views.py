@@ -13,6 +13,7 @@ from django.contrib.auth.models import User, auth
 from django.contrib.auth.views import *
 import pickle
 import joblib
+from .forms import usersForm
 import os
 
 def signup(request):
@@ -29,21 +30,21 @@ def signup(request):
     else:
         stu = usersForm()
     return render(request,'signup.html',{'form':stu})
-from sklearn.linear_model import LogisticRegression
+
 def login(request):
     if request.method == 'POST':
         user = User()
-        username = request.POST['username']
-        password = request.POST['password']
+        username = request.POST['user']
+        password = request.POST['pass']
         user = authenticate(username=username, password=password)
         context = {'user':request.user}
         if user is not None:
             auth.login(request, user)
             return redirect('home')
         else:
-            return render(request,'login.html',context)
+            return render(request,'signin.html',context)
     else:
-        return render(request,'login.html')
+        return render(request,'signin.html')
 
 
 def home(request):
@@ -51,37 +52,41 @@ def home(request):
 
 def pred(request):
 	if(request.method=='POST'):
-		test=DiabTest()
-		test.Pregnancies=float(request.POST.get('pg',None))
-		test.Glucose=float(request.POST.get('gl',None))
-		test.BP=request.POST.get('bp',None)
-		test.Skinthickness=float(request.POST.get('st',None))
-		test.Insulin=float(request.POST.get('ins',None))
-		test.BMI=float(request.POST.get('bmi',None))
-		test.Diabetic_pf=float(request.POST.get('dpf',None))
-		test.age=float(request.POST.get('age',None))
+		pr = Profile()
+		# YearBuilt=request.POST.get('yb',None)
+		# Neighborhood=request.POST.get('ng',None)
+		# OverallQual=request.POST.get('ovq',None)
+		# YearRemodAdd=request.POST.get('yra',None)
+		# ExterQual=request.POST.get('eq',None)
+		# Foundation=request.POST.get('foun',None)
+		# BsmtQual=request.POST.get('bsq',None)
+		# TotalBsmtSF=request.POST.get('tb',None)
+		# GrLivArea=request.POST.get('gla',None)
+		# fstFlrSF=request.POST.get('1ff',None)
+		# FullBath=request.POST.get('fb',None)
+		# KitchenQual=request.POST.get('kq',None)
+		# TotRmsAbvGrd=request.POST.get('trag',None)
+		# GarageFinish=request.POST.get('gf',None)
+		# GarageCars=request.POST.get('gc',None)
+		# GarageArea=request.POST.get('ga',None)
+
 		data=list((request.POST).dict().values())[1:]
 		num_data=[i for i in data ]
-		df_data=pd.DataFrame([num_data],columns=['Pregnancies', 'Glucose', 'BloodPressure', 'SkinThickness', 'Insulin', 'BMI', 'DiabetesPedigreeFunction', 'Age'])
-		cls=joblib.load("prediction/dblogR.pkl")
-		y_pred = cls.predict(df_data)[0]
+		df_data=pd.DataFrame([num_data],columns=['YearBuilt','Neighborhood','OverallQual','YearRemodAdd','ExterQual','Foundation','BsmtQual','TotalBsmtSF','GrLivArea','1stFlrSF','FullBath','KitchenQual','TotRmsAbvGrd','GarageFinish','GarageCars','GarageArea'])
+		print(df_data)
+		reg=joblib.load("prediction/modl.pkl")
+		y_pred = reg.predict(df_data)[0]
 		
-		if(y_pred==0):
-			str_res='Non Diabetic'
-		else:
-			str_res='Diabetic'
-		print(str_res)
-		test.user = str(request.user)
-		test.Res=str_res
-		test.save()
-		return render(request,'diab_test.html',{'result':str_res})
+		print(y_pred)
+		pr.usern = str(request.user)
+		pr.HouseRate=y_pred
+		pr.save()
+		return render(request,'pred.html',{'result':y_pred})
 	else:
-		return render(request, 'diab_test.html')
+		return render(request, 'pred.html')
 
 def profile(request):
-	heartT = HeartTest.objects.filter(user=str(request.user))
-	diabT = DiabTest.objects.filter(user=str(request.user))
-	return render(request,'profile.html',{'heartT':heartT,'diabT':diabT})
+	return render(request,'profile.html',{})
 
 
 

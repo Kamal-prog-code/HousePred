@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% block title %}Profile{% endblock %}
+{% block content %}
+<body style="background-image:url('static/imgs/dash.jpg');background-size: 100%;">
+    <hr>
+<i><h1 style="margin:1em 0em 0em 1.2em; font-family: cursive;background-color: rgb(59, 111, 255);"><marquee direction="right">DashBoard</marquee></h1></i>
+    <div class="row">
+      <div class="col-md-8 offset-md-2">
+        <div class="card" style="padding-top: 2%;padding-left: 1%;height: 110px;">
+          <a class="btn btn-outline-dark " href="{% url 'home'%}"  style="font-family: cursive;font-size: large;width: max-content;"><i class="fas fa-home"></i>&nbsp;Home</a>
+          <h4 style="font-family: cursive;"><center>Your Previous Records</center></h4>
+        </div>
+        <div class="dash-row">
+        <table class="table">
+          <tr>
+            <th>Date</th>
+            <th>Age</th>
+            <th>Result</th>
+          </tr>
+          
+          {% if not diabT %}
+          <tr><td colspan="3" style="text-align: center;"><h4>No Data found</h4></td></tr>
+          {%else%}
+              {% for tr in diabT %}
+                <tr>
+                    <td><p>{{tr.Testdate}}</p></td>
+                    <td><p>{{tr.age}}</p></td>
+                    <td><p>{{tr.Res}}</p></td>
+                </tr>
+               {% endfor %}
+          {%endif%}
+          
+        </table>
+      </div>
+      </div>
+    </div>
+</body>
+{% endblock %}

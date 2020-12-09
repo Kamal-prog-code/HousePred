@@ -11,9 +11,9 @@ class users(models.Model):
     def __str__(self):
         return self.User_Name 
 
-class Prediction(models.Model):
-    user = models.CharField(max_length=50,null=True)
+class Profile(models.Model):
+    usern = models.CharField(max_length=50,null=True)
     HouseRate = models.CharField(max_length=50,null=True)
 
     def __str__(self):
-        return str(self.user)
+        return str(self.usern)

@@ -4,7 +4,6 @@ input
   padding: 12px 20px;
   margin-top:8px;
   display: flex;
-  border: 1px solid #ccc;
   border-radius: 4px;
   box-sizing: border-box;
 }
@@ -37,11 +36,6 @@ input
   min-height: 100%;
 }
 
-input {
-  background-color : #9cf;
-  color : #000;
-  font-style: italic;
-}
 
 #rangeDate  {
   border: 2px solid whitesmoke;
@@ -83,4 +77,139 @@ input {
   100% {
     opacity: 0;
   }
+}
+
+.header {
+  overflow: hidden;
+  background-image: linear-gradient(to right, #fafafa,rgb(102, 102, 243));
+  background-size: 100%;
+  font-family: cursive;
+  height: max-content;
+  width:100%
+}
+.header-center
+{
+  padding: 7px;
+  margin-top: 3.5px;
+  margin-left: 5em;
+  text-shadow: black;
+  float: left;
+}
+.header-right
+{
+  margin-top: 0.7em;
+  text-shadow: black;
+  float: right;
+}
+button{
+  border: none;
+  color: white;
+  text-decoration: none;  
+  text-align: center;
+  cursor: pointer;
+}
+
+
+img
+{
+  max-width: 100%;
+  padding: 0%;
+}
+.header a {
+  float: left;
+  color: rgb(0, 0, 0);
+  text-align: center;
+  padding: 12px;
+  text-decoration: none;
+  font-size: 18px;
+  line-height: 25px;
+  border-radius: 4px;
+}
+
+.header a.logo {
+  float: left;
+
+}
+.header a:hover {
+  background-color: #ddd;
+  color: rgb(133, 111, 111);
+}
+.header a.active {
+  background-color: rgb(2, 125, 248);
+  color: white;
+}
+.header .menu {
+  list-style:none;
+  float:left;
+  margin:0;
+  padding:0;
+}
+
+form p {
+overflow:auto;
+}
+
+.card p {
+margin:10px 0 20px;
+width:100%;
+float:left;
+}
+.card
+{
+margin: 20px 2px 20px 2px;
+box-shadow:0px 0px 10px 1px grey;
+border-radius: 5px;
+padding-bottom:20px ;
+}
+.course-list
+{
+box-shadow:0px 0px 10px 1px rgb(63, 63, 63);
+border-radius: 15px;
+margin: 3em 0em 2em 0em ;
+height: 300px;
+background: rgb(255, 255, 255);
+}
+
+input{
+margin-bottom: 15px;
+padding:10px;
+width:100%;
+box-sizing: border-box;
+border-radius: 5px;
+height:50px;
+text-align: center;
+}
+ul
+{
+list-style-type: none;
+}
+
+
+.dash-list
+{
+box-shadow:0px 0px 10px 1px rgb(63, 63, 63);
+border-radius: 15px;
+margin: 3em 0em 0em 3em ;
+width: 100px;
+height: 100%;
+background: rgb(255, 255, 255);
+}
+
+#Banner
+{
+  background-image:url(/static/imgs/people.jpg);
+  padding-top: 17%;
+  padding-left: 823px;
+  background-size:100%;
+  color: rgb(0, 0, 0);
+}
+
+.titl
+{
+  font-weight: 200;
+  font-size: 35px;
+  font-family: cursive;
+  width: 100px;
+  height: 100%;
+
 }

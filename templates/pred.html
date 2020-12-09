@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% block title %}Prediction{% endblock %}
+{% block content %}
+<body style="background-image: url('/static/imgs/pred.jpeg'); background-size:100%">
+    <div class="container-fluid" style="color: rgb(255, 0, 76);">
+        <div class=" card display-4 my-2 text-center"><a href="{% url 'home'%}">House Price Prediction</a></div>
+        <hr/>
+            {% if result %}
+            <div class="card col-md-4 offset-md-4">
+                <div class="blink display-4 text-center">Price --> {{ result }} </div>
+            </div>
+            {% endif %}
+            <form class="row" method="POST" action="{% url 'pred' %}">
+                {% csrf_token %}
+                <div class="card col-md-4 offset-md-4">
+                    YearBuilt: <input name="yb"/><br/>
+                    Neighborhood: <input name="ng"/><br/>
+                    OverallQual: <input name="ovq"/><br/>
+                    YearRemodAdd: <input name="yra"/><br/>
+                    ExterQual: <input name="eq"/><br/>
+                    Foundation: <input name="foun"/><br/>
+                    BsmtQual: <input name="bsq"/><br/><br>
+                    TotalBsmtSF: <input name="tb"/><br/><br>
+                    GrLivArea: <input name="gla"/><br/><br>
+                    1stFlrSF: <input name="1ff"/><br/><br>
+                    FullBath: <input name="fb"/><br/><br>
+                    KitchenQual: <input name="kq"/><br/><br>
+                    TotRmsAbvGrd: <input name="trag"/><br/><br>
+                    GarageFinish: <input name="gf"/><br/><br>
+                    GarageCars: <input name="gc"/><br/><br>
+                    GarageArea: <input name="ga"/><br/><br>
+                    
+                    <input type="submit" class="btn btn-danger" value="Submit"></input>
+                </div>
+            </form>    
+    </div>    
+</body>
+{% endblock %}         
