@@ -71,11 +71,12 @@ def pred(request):
 		# GarageArea=request.POST.get('ga',None)
 
 		data=list((request.POST).dict().values())[1:]
-		num_data=[i for i in data ]
-		df_data=pd.DataFrame([num_data],columns=['YearBuilt','Neighborhood','OverallQual','YearRemodAdd','ExterQual','Foundation','BsmtQual','TotalBsmtSF','GrLivArea','1stFlrSF','FullBath','KitchenQual','TotRmsAbvGrd','GarageFinish','GarageCars','GarageArea'])
+		num_data=[ float(i) for i in data ]
+
+		df_data=pd.DataFrame([num_data],columns=['bedrooms','bathrooms','sqft_living','sqft_lot','floors','waterfront','view','grade','sqft_above','sqft_basement','yr_built','yr_renovated','lat','sqft_living15','sqft_lot15'])
 		print(df_data)
-		reg=joblib.load("prediction/modl.pkl")
-		y_pred = reg.predict(df_data)[0]
+		reg=joblib.load("prediction/Regmodel.pkl")
+		y_pred = reg.predict(df_data)
 		
 		print(y_pred)
 		pr.usern = str(request.user)
@@ -86,7 +87,8 @@ def pred(request):
 		return render(request, 'pred.html')
 
 def profile(request):
-	return render(request,'profile.html',{})
+	res = Profile.objects.all()
+	return render(request,'profile.html',{'res':res})
 
 
 

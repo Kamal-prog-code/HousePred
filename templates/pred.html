@@ -7,29 +7,27 @@
         <hr/>
             {% if result %}
             <div class="card col-md-4 offset-md-4">
-                <div class="blink display-4 text-center">Price --> {{ result }} </div>
+                <div class="blink display-5 text-center">Price : {{ result }} </div>
             </div>
             {% endif %}
             <form class="row" method="POST" action="{% url 'pred' %}">
                 {% csrf_token %}
                 <div class="card col-md-4 offset-md-4">
-                    YearBuilt: <input name="yb"/><br/>
-                    Neighborhood: <input name="ng"/><br/>
-                    OverallQual: <input name="ovq"/><br/>
-                    YearRemodAdd: <input name="yra"/><br/>
-                    ExterQual: <input name="eq"/><br/>
-                    Foundation: <input name="foun"/><br/>
-                    BsmtQual: <input name="bsq"/><br/><br>
-                    TotalBsmtSF: <input name="tb"/><br/><br>
-                    GrLivArea: <input name="gla"/><br/><br>
-                    1stFlrSF: <input name="1ff"/><br/><br>
-                    FullBath: <input name="fb"/><br/><br>
-                    KitchenQual: <input name="kq"/><br/><br>
-                    TotRmsAbvGrd: <input name="trag"/><br/><br>
-                    GarageFinish: <input name="gf"/><br/><br>
-                    GarageCars: <input name="gc"/><br/><br>
-                    GarageArea: <input name="ga"/><br/><br>
-                    
+                        bedrooms: <input name="bed"/><br/><br>
+                        bathrooms: <input name="bath"/><br/><br>
+                        sqft_living: <input name="sli"/><br/><br>
+                        sqft_lot: <input name="sql"/><br/><br>
+                        floors: <input name="fl"/><br/><br>
+                        waterfront: <input name="wf"/><br/><br>
+                        view: <input name="v"/><br/><br>
+                        grade: <input name="g"/><br/><br>
+                        sqft_above: <input name="sa"/><br/><br>
+                        sqft_basement: <input name="sb"/><br/><br>
+                        yr_built: <input name="yb"/><br/><br>
+                        yr_renovated: <input name="yr"/><br/><br>
+                        lat: <input name="l"/><br/><br>
+                        sqft_living15: <input name="sl15"/><br/><br>
+                        sqft_lot15: <input name="slot15"/><br/><br>
                     <input type="submit" class="btn btn-danger" value="Submit"></input>
                 </div>
             </form>    

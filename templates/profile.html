@@ -14,17 +14,17 @@
         <table class="table">
           <tr>
             <th>Date</th>
-            <th>Age</th>
+            <th>Neighborhood</th>
             <th>Result</th>
           </tr>
           
-          {% if not diabT %}
+          {% if not res %}
           <tr><td colspan="3" style="text-align: center;"><h4>No Data found</h4></td></tr>
           {%else%}
-              {% for tr in diabT %}
+              {% for tr in res %}
                 <tr>
                     <td><p>{{tr.Testdate}}</p></td>
-                    <td><p>{{tr.age}}</p></td>
+                    <td><p>{{tr.Neighborhood}}</p></td>
                     <td><p>{{tr.Res}}</p></td>
                 </tr>
                {% endfor %}

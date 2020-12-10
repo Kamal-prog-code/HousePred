@@ -1,77 +1,88 @@
+
 import pandas as pd
-import numpy as np
 import matplotlib.pyplot as plt
-# %matplotlib inline
 import seaborn as sns
-from sklearn.model_selection import train_test_split
-from sklearn.preprocessing import MinMaxScaler
-import pickle
+import mpl_toolkits
 import os
+import pickle
+data = pd.read_csv("kc_house_data.csv")
+# data['bedrooms'].value_counts().plot(kind='bar')
+# plt.title('number of Bedroom')
+# plt.xlabel('Bedrooms')
+# plt.ylabel('Count')
+# sns.despine()
+# plt.figure(figsize=(10,10))
+# sns.jointplot(x=data.lat.values, y=data.long.values, size=10)
+# plt.ylabel('Longitude', fontsize=12)
+# plt.xlabel('Latitude', fontsize=12)
+# plt.show()
 
-pd.pandas.set_option('display.max_columns',None)
-dataset=pd.read_csv('train.csv')
-dataset=dataset.set_index("Id")
-numerical_features = dataset.select_dtypes(include=['int64','float64']).columns
-Per_null = (dataset.isnull().sum()/dataset.shape[0]) * 100
+# sns.despine()
+# plt.scatter(data.price,data.sqft_living)
+# plt.title("Price vs Square Feet")
+# plt.scatter(data.price,data.long)
+# plt.title("Price vs Location of the area")
+# plt.scatter(data.price,data.lat)
+# plt.xlabel("Price")
+# plt.ylabel('Latitude')
+# plt.title("Latitude vs Price")
 
-drop_col = Per_null[Per_null>20].keys()
-dataset = dataset.drop(drop_col,'columns')
-miss_col = dataset.columns[dataset.isnull().any()]
-
-for i in miss_col:
-    dataset[i] = dataset[i].replace(np.nan,dataset[i].mode()[0])
-categorical_features=dataset.select_dtypes(include=['object']).columns
-
-for feature in categorical_features:
-    labels_ordered=dataset.groupby([feature])['SalePrice'].mean().sort_values().index
-    labels_ordered={k:i for i,k in enumerate(labels_ordered,0)}
-    dataset[feature]=dataset[feature].map(labels_ordered)
-
-feature_scale=[feature for feature in dataset.columns if feature not in ['SalePrice']]
-
-scaler=MinMaxScaler()
-scaler.fit(dataset[feature_scale])
-
-data = pd.concat([dataset[['SalePrice']].reset_index(drop=False),pd.DataFrame(scaler.transform(dataset[feature_scale]), columns=feature_scale)],axis=1)
-data=data.set_index("Id")
-
-corr_scores = data.corr()
-corr_scores_features = corr_scores.index[abs(corr_scores["SalePrice"]) >= 0.5]
-
-X=data[corr_scores_features].values
-Y=data['SalePrice'].values
-
-X_train, X_test, y_train, y_test = train_test_split(X, Y, test_size=0.33, random_state=42)
-
+# plt.scatter(data.bedrooms,data.price)
+# plt.title("Bedroom and Price ")
+# plt.xlabel("Bedrooms")
+# plt.ylabel("Price")
+# plt.show()
+# sns.despine()
+# plt.scatter((data['sqft_living']+data['sqft_basement']),data['price'])
+# plt.scatter(data.waterfront,data.price)
+# plt.title("Waterfront vs Price ( 0= no waterfront)")
+# train1 = data.drop(['id', 'price'],axis=1)
+# data.floors.value_counts().plot(kind='bar')
+# plt.scatter(data.condition,data.price)
+# plt.scatter(data.zipcode,data.price)
+# plt.title("Which is the pricey location by zipcode?")
 from sklearn.linear_model import LinearRegression
-from sklearn.model_selection import cross_val_score
+reg = LinearRegression()
 
-Lin_classifier = LinearRegression()
-mse=cross_val_score(Lin_classifier,X_train,y_train,scoring='neg_mean_squared_error',cv=5)
-# mean_mse=np.mean(mse)
-# print("Linear error rate",mean_mse*100)
+labels = data['price']
+conv_dates = [1 if values == 2014 else 0 for values in data.date ]
+data['date'] = conv_dates
+train1 = data.drop(['id', 'price'],axis=1)
 
+from sklearn.preprocessing import StandardScaler
 
-from sklearn.linear_model import Ridge,Lasso
-from sklearn.model_selection import GridSearchCV
+scaler=StandardScaler()
+scaler.fit(train1)
+x_std=scaler.transform(train1)
 
-ridge_classifier = Ridge()
-parameters={'alpha':[1e-15,1e-10,1e-8,1e-3,1e-2,1,5,10,20,30,35,40,45,50,55,100]}
-ridge_regressor=GridSearchCV(ridge_classifier,parameters,scoring='neg_mean_squared_error',cv=5)
-ridge_regressor.fit(X_train,y_train)
-# print("Ridge error rate: ",ridge_regressor.best_score_*100)
+from sklearn.decomposition import PCA
+pca=PCA().fit(x_std)
 
-lasso = Lasso()
-lasso_reg =GridSearchCV(lasso,parameters,scoring = 'neg_mean_squared_error',cv=5)
-lasso_reg.fit(X_train,y_train)
-# print(lasso_reg.best_params_,ridge_reg.best_scores_)
-l = [ridge_regressor.best_score_,lasso_reg.best_score_]
-mini = min(l)
-for i in range(0,len(l)):
-    if mini == l[i]:
-        v = i
-lis = [ridge_regressor,lasso_reg]
+corr_mat = data.corr()
+
+cols_to_drop = []
+CORR_THRESH = 0.05
+for col in train1:
+    corr = data[col].corr(data['price'])
+    if (corr < CORR_THRESH):
+        cols_to_drop.append(col)
+
+df=train1
+for col in df:
+        if col in cols_to_drop:
+            df.drop(labels=[col], axis=1, inplace=True)
+df=df.drop('date',axis=1)                    
+from sklearn.model_selection import train_test_split
+x_train1 , x_test1 , y_train1 , y_test1 = train_test_split(df, labels , test_size = 0.10,random_state =2)
+reg.fit(x_train1,y_train1)
+print(reg.score(x_test1,y_test1))
+
+from sklearn import ensemble
+ensreg = ensemble.GradientBoostingRegressor(n_estimators = 400, max_depth = 5, min_samples_split = 2,
+          learning_rate = 0.1, loss = 'ls')
+ensreg.fit(x_train1,y_train1)
+print(ensreg.score(x_test1,y_test1))
 
 save_path = 'prediction/'
-completeName = os.path.join(save_path, "modl.pkl")         
-pickle.dump(lis[v], open(completeName, 'wb'))
+completeName = os.path.join(save_path, "Regmodel.pkl")         
+pickle.dump(ensreg, open(completeName, 'wb'))
