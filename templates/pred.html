@@ -3,7 +3,7 @@
 {% block content %}
 <body style="background-image: url('/static/imgs/pred.jpeg'); background-size:100%">
     <div class="container-fluid" style="color: rgb(255, 0, 76);">
-        <div class=" card display-4 my-2 text-center"><a href="{% url 'home'%}">House Price Prediction</a></div>
+        <div class=" card display-1 my-2 text-center links"><a href="{% url 'home'%}" style="font-size:40px;color: crimson;">House Price Prediction</a></div>
         <hr/>
             {% if result %}
             <div class="card col-md-4 offset-md-4">
@@ -24,7 +24,8 @@
                         sqft_above: <input name="sa"/><br/><br>
                         sqft_basement: <input name="sb"/><br/><br>
                         yr_built: <input name="yb"/><br/><br>
-                        yr_renovated: <input name="yr"/><br/><br>
+                        yr_renovated: <input name="yr"/><label style="text-shadow: 0cm;color: rgb(87, 63, 63);">Enter 0, if it's not renovated yet</label><br/>
+                        zipcode:  <input name="zip"/><br/><br>
                         lat: <input name="l"/><br/><br>
                         sqft_living15: <input name="sl15"/><br/><br>
                         sqft_lot15: <input name="slot15"/><br/><br>

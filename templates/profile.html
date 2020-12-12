@@ -1,9 +1,9 @@
 {% extends "base.html" %}
 {% block title %}Profile{% endblock %}
 {% block content %}
-<body style="background-image:url('static/imgs/dash.jpg');background-size: 100%;">
+<body style="background-image:url('static/imgs/dash.jpeg');background-size: 100%;">
     <hr>
-<i><h1 style="margin:1em 0em 0em 1.2em; font-family: cursive;background-color: rgb(59, 111, 255);"><marquee direction="right">DashBoard</marquee></h1></i>
+<i><h1 style="margin:1em 0em 0em 0em; font-family: cursive;background-color: rgb(59, 111, 255);"><marquee direction="right">DashBoard</marquee></h1></i>
     <div class="row">
       <div class="col-md-8 offset-md-2">
         <div class="card" style="padding-top: 2%;padding-left: 1%;height: 110px;">
@@ -11,11 +11,12 @@
           <h4 style="font-family: cursive;"><center>Your Previous Records</center></h4>
         </div>
         <div class="dash-row">
-        <table class="table">
+        <table class="table" style="background: rgb(255, 255, 255);">
           <tr>
             <th>Date</th>
-            <th>Neighborhood</th>
-            <th>Result</th>
+            <th>ZipCode</th>
+            <th>Bedroom</th>
+            <th>Price</th>
           </tr>
           
           {% if not res %}
@@ -24,8 +25,9 @@
               {% for tr in res %}
                 <tr>
                     <td><p>{{tr.Testdate}}</p></td>
-                    <td><p>{{tr.Neighborhood}}</p></td>
-                    <td><p>{{tr.Res}}</p></td>
+                    <td><p>{{tr.zipcode}}</p></td>
+                    <td><p>{{tr.bedroom}}</p></td>
+                    <td><p>&#8377;&nbsp;{{tr.HouseRate}}</p></td>
                 </tr>
                {% endfor %}
           {%endif%}

@@ -13,6 +13,9 @@ class users(models.Model):
 
 class Profile(models.Model):
     usern = models.CharField(max_length=50,null=True)
+    zipcode = models.CharField(max_length=50,null=True)
+    bedroom = models.CharField(max_length=50,null=True)
+    Testdate = models.DateTimeField(default=datetime.now, blank=True)
     HouseRate = models.CharField(max_length=50,null=True)
 
     def __str__(self):

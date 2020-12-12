@@ -53,34 +53,20 @@ def home(request):
 def pred(request):
 	if(request.method=='POST'):
 		pr = Profile()
-		# YearBuilt=request.POST.get('yb',None)
-		# Neighborhood=request.POST.get('ng',None)
-		# OverallQual=request.POST.get('ovq',None)
-		# YearRemodAdd=request.POST.get('yra',None)
-		# ExterQual=request.POST.get('eq',None)
-		# Foundation=request.POST.get('foun',None)
-		# BsmtQual=request.POST.get('bsq',None)
-		# TotalBsmtSF=request.POST.get('tb',None)
-		# GrLivArea=request.POST.get('gla',None)
-		# fstFlrSF=request.POST.get('1ff',None)
-		# FullBath=request.POST.get('fb',None)
-		# KitchenQual=request.POST.get('kq',None)
-		# TotRmsAbvGrd=request.POST.get('trag',None)
-		# GarageFinish=request.POST.get('gf',None)
-		# GarageCars=request.POST.get('gc',None)
-		# GarageArea=request.POST.get('ga',None)
 
 		data=list((request.POST).dict().values())[1:]
 		num_data=[ float(i) for i in data ]
 
-		df_data=pd.DataFrame([num_data],columns=['bedrooms','bathrooms','sqft_living','sqft_lot','floors','waterfront','view','grade','sqft_above','sqft_basement','yr_built','yr_renovated','lat','sqft_living15','sqft_lot15'])
+		df_data=pd.DataFrame([num_data],columns=['bedrooms','bathrooms','sqft_living','sqft_lot','floors','waterfront','view','grade','sqft_above','sqft_basement','yr_built','yr_renovated','zipcode','lat','sqft_living15','sqft_lot15'])
 		print(df_data)
 		reg=joblib.load("prediction/Regmodel.pkl")
 		y_pred = reg.predict(df_data)
 		
 		print(y_pred)
 		pr.usern = str(request.user)
-		pr.HouseRate=y_pred
+		pr.bedroom=request.POST.get('bed')
+		pr.zipcode=request.POST.get('zip')
+		pr.HouseRate=y_pred[0]
 		pr.save()
 		return render(request,'pred.html',{'result':y_pred})
 	else:
